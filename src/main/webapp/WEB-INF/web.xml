@@ -8,6 +8,10 @@
         <servlet-name>registrarController</servlet-name>
         <servlet-class>Controller.registrarController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>registrarProyectoCotroller</servlet-name>
+        <servlet-class>Controller.registrarProyectoCotroller</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginController</servlet-name>
         <url-pattern>/loginController</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>registrarController</servlet-name>
         <url-pattern>/registrarController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>registrarProyectoCotroller</servlet-name>
+        <url-pattern>/registrarProyectoCotroller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

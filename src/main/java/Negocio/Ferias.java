@@ -6,14 +6,18 @@
 package Negocio;
 
 import Dao.AlumnoJpaController;
+import Dao.AsignaturaJpaController;
 import Dao.CategoriaJpaController;
 import Dao.Conexion;
 import Dao.EventoJpaController;
 import Dao.ProyectoJpaController;
+import Dao.TipoJpaController;
 import Dto.Alumno;
+import Dto.Asignatura;
 import Dto.Categoria;
 import Dto.Evento;
 import Dto.Proyecto;
+import Dto.Tipo;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +35,7 @@ public class Ferias {
     List<Proyecto> pl=null;
     List<Alumno> al=null;
     List<Evento> el=null;
+    List<Proyecto> newProyectos;
     
     public Ferias(){
         con=Conexion.getConexion();
@@ -76,21 +81,11 @@ public class Ferias {
 
       public void asignarAlumnoaProy(Proyecto p,Alumno a){
           Proyecto pr=this.findProyecto(p.getNombre());
-          al=pr.getAlumnoList();
-          al.add(a);
+          Alumno alu=this.findAlumnoCod(a.getCodigo());
+          pr.getAlumnoList().add(alu);
+          alu.getProyectoList().add(pr);
       }
-      public List<Proyecto> AsignarAlumnoP(Proyecto pr,Alumno a){
-             pl=this.getProyectos();
-             for (Proyecto proyecto : pl) {
-                 if(proyecto.getNombre().equals(pr.getNombre())){
-                     al=proyecto.getAlumnoList();
-                     al.add(a);
-                     return pl;
-                 }
-                 
-             }
-             return null;
-         }
+      
       public Proyecto findProyecto(String n){
           pjc=new ProyectoJpaController(con.getBd());
           pl=pjc.findProyectoEntities();
@@ -132,6 +127,26 @@ public class Ferias {
          Alumno a=ajc.findAlumno(cod);
          return a;
       }
+       public Asignatura findAsignaturaById(String codigo){
+           AsignaturaJpaController asijc=new AsignaturaJpaController(con.getBd());
+           return asijc.findAsignatura(codigo);
+       }
+       public Categoria findCategoriaById(String id){
+           CategoriaJpaController cajc=new  CategoriaJpaController(con.getBd());
+           int i=Integer.parseInt(id);
+           return cajc.findCategoria(i);
+           
+       }
+       public Tipo findTipoById(String id){
+           TipoJpaController tjc=new TipoJpaController(con.getBd());
+           int i=Integer.parseInt(id);
+           return tjc.findTipo(i);
+       }
+       public Evento findEventoById(String id){
+           EventoJpaController tjc=new EventoJpaController(con.getBd());
+           int i=Integer.parseInt(id);
+           return tjc.findEvento(i);
+       }
        public void ActualizarProy(Proyecto p){
            pjc=new ProyectoJpaController(con.getBd());
         try {
@@ -162,19 +177,21 @@ public class Ferias {
              }
              return false;
          }
-         public List<Proyecto> participa(Alumno a){
-             pl=this.getProyectos();
-             for (Proyecto proyecto : pl) {
-                 al=proyecto.getAlumnoList();
-                 for (Alumno al: al) {
-                     if(al.getEmail().equals(a.getEmail()) || al.getCodigo().equals(a.getCodigo())){
-                         return al.getProyectoList();
-                     }
-                 }
-             }
-             return null;
+         public List<Asignatura> getAsignaturas(){
+             AsignaturaJpaController asjc=new AsignaturaJpaController(con.getBd());
+             return asjc.findAsignaturaEntities();
          }
-    
-    
-    
+         public List<Categoria> getCategoria(){
+             CategoriaJpaController csjc=new CategoriaJpaController(con.getBd());
+             return csjc.findCategoriaEntities();
+         }
+         public List<Tipo> getTipo(){
+             TipoJpaController tsjc=new TipoJpaController(con.getBd());
+             return tsjc.findTipoEntities();
+         }
+         public List<Proyecto> participa2(Alumno a){
+             Alumno al=this.findAlumno(a.getEmail());
+             return al.getProyectoList();
+         }
+        
 }

@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Dto.Alumno;
+import Negocio.Ferias;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -30,18 +32,7 @@ public class registrarController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet registrarController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet registrarController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,7 +61,18 @@ public class registrarController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String nombre=request.getParameter("nom");
+        String email=request.getParameter("ema");
+        String clave=request.getParameter("cla");
+        Ferias f=new Ferias();
+        Alumno al=new Alumno();
+        al.setClave(clave);
+        al.setNombre(nombre);
+        al.setEmail(email);
+        if(f.RegistrarAlumno(al)){
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     /**
