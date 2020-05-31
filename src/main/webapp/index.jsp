@@ -124,7 +124,10 @@
                     </div>
                     <form action="registrarController" method="POST">
                         <div class="modal-body">
-
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Codigo</label>
+                                <input name="cod" type="text" class="form-control" id="formGroupExampleInput" placeholder="...">
+                            </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Nombre</label>
                                 <input name="nom" type="text" class="form-control" id="formGroupExampleInput" placeholder="...">

@@ -61,12 +61,13 @@ public class registrarController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String cod=request.getParameter("cod");
         String nombre=request.getParameter("nom");
         String email=request.getParameter("ema");
         String clave=request.getParameter("cla");
         Ferias f=new Ferias();
         Alumno al=new Alumno();
+        al.setCodigo(cod);
         al.setClave(clave);
         al.setNombre(nombre);
         al.setEmail(email);
