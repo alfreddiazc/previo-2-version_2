@@ -80,18 +80,12 @@ public class registrarProyectoCotroller extends HttpServlet {
         p.setCategoria(f.findCategoriaById(cate));
         p.setTipo(f.findTipoById(tipo));
         p.setEvento(f.findEventoById(evento));
+        Alumno a=(Alumno) request.getSession().getAttribute("alumno");
+        
         if(f.RegistrarProyecto(p)){
-            Alumno a=(Alumno) request.getSession().getAttribute("alumno");
-            Proyecto p1=f.findProyecto(p.getNombre());
-            System.out.println("alumno: "+a.getNombre()+"proyecto: "+p.getNombre());
-            List<Proyecto> lp=null;
-                        f.asignarAlumnoaProy(p1,a);
-                        System.out.println("asigna");
-                        lp=f.participa2(a);
-                    
-                    for (Proyecto proyecto12 : lp) {
-                        System.out.println("proyecto: " + proyecto12.getNombre());
-            }
+            
+            f.asignarAlumnoaProy(p, a);
+            List<Proyecto> lp=f.participa2(a);
             request.getSession().setAttribute("alumno", a);
             request.setAttribute("listProyect", lp);
             request.getRequestDispatcher("./jsp/logueado.jsp").forward(request, response);

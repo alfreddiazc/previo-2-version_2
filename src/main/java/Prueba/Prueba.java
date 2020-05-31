@@ -53,7 +53,7 @@ public class Prueba {
 //               System.out.println("no");
 //        }
 //    prueba de actualizar un proyecto
-              f.ActualizarProy(pr);
+//              f.ActualizarProy(pr);
 //    Prueba de que devuelve los proyectos por un estudiante.
 //        Alumno a=new Alumno("1150101","Pepito Perez", "pepito@gmail.com", "1234");
 //        List<Proyecto> lp=f.participa(a);
@@ -62,6 +62,11 @@ public class Prueba {
 //            System.out.println("c ");
 //            System.out.println("nombre p:  "+proyecto.getNombre());
 //        }
-
+ // asigna y actualiza un proyecto con un alumno
+       Proyecto p=new Proyecto();
+       p.setNombre("covid");
+       Alumno a=new Alumno();
+       a.setCodigo("1150707");
+       f.asignarAlumnoaProy(p, a);
     }
 }

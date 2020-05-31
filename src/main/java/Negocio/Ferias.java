@@ -81,11 +81,43 @@ public class Ferias {
 
       public void asignarAlumnoaProy(Proyecto p,Alumno a){
           Proyecto pr=this.findProyecto(p.getNombre());
+          System.out.println("alumno "+a.getCodigo()+" Proyecto: "+pr.getNombre());
           Alumno alu=this.findAlumnoCod(a.getCodigo());
           pr.getAlumnoList().add(alu);
           alu.getProyectoList().add(pr);
+          ajc=new AlumnoJpaController(con.getBd());
+          pjc=new ProyectoJpaController(con.getBd());
+        try {
+            ajc.edit(alu);
+        } catch (Exception ex) {
+            Logger.getLogger(Ferias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            pjc.edit(pr);
+        } catch (Exception ex) {
+            Logger.getLogger(Ferias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
+          for (Proyecto proyecto : alu.getProyectoList()) {
+             System.out.println("___Proyecto__"+proyecto.getNombre());
+             List<Alumno> aluu=proyecto.getAlumnoList();
+              for (Alumno a12 : aluu) {
+                  System.out.println("alumno: "+a12.getNombre());
+              }
+          }
+          for (Alumno all : pr.getAlumnoList()) {
+              System.out.println("___Alumno__"+all.getNombre());
+              List<Proyecto> lpp=all.getProyectoList();
+              for (Proyecto proyecto12 : lpp) {
+                  System.out.println("Proyecto: "+proyecto12.getNombre());
+              }
+          }
       }
-      
+      public List<Proyecto> participa2(Alumno a){
+             Alumno af=this.findAlumno(a.getEmail());
+             List<Proyecto> lpal=af.getProyectoList();
+             return lpal;
+         }
       public Proyecto findProyecto(String n){
           pjc=new ProyectoJpaController(con.getBd());
           pl=pjc.findProyectoEntities();
@@ -189,9 +221,6 @@ public class Ferias {
              TipoJpaController tsjc=new TipoJpaController(con.getBd());
              return tsjc.findTipoEntities();
          }
-         public List<Proyecto> participa2(Alumno a){
-             Alumno al=this.findAlumno(a.getEmail());
-             return al.getProyectoList();
-         }
+         
         
 }

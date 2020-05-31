@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author USUARIO
  */
-public class loginController extends HttpServlet {
+public class asignarAlumno extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +34,8 @@ public class loginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,7 +50,17 @@ public class loginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String p=request.getParameter("proyecto");
+        System.out.println("proyecto: "+p);
+        Proyecto np=new Proyecto();
+        np.setNombre(p);
+        Ferias f=new Ferias();
+        Alumno a=(Alumno) request.getSession().getAttribute("alumno");
+            f.asignarAlumnoaProy( np, a);
+            List<Proyecto> lp=f.participa2(a);
+            request.getSession().setAttribute("alumno", a);
+            request.setAttribute("listProyect", lp);
+            request.getRequestDispatcher("./jsp/logueado.jsp").forward(request, response);            
     }
 
     /**
@@ -63,24 +74,7 @@ public class loginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email=request.getParameter("email");
-        String clave=request.getParameter("clave");
-        Ferias f = new Ferias();
-        if(f.login(email, clave)){
-            Alumno a=f.findAlumno(email);
-            List<Proyecto> lp=f.participa2(a);
-            if(lp != null && lp.size()>0){
-               
-                request.getSession().setAttribute("alumno",a);
-                request.setAttribute("listProyect", lp);
-                request.getRequestDispatcher("./jsp/logueado.jsp").forward(request, response);
-            }
-            else{
-                request.getSession().setAttribute("alumno",a);
-                request.getRequestDispatcher("./jsp/logueadosin.jsp").forward(request, response);
-            }
-        }
-        
+        processRequest(request, response);
     }
 
     /**

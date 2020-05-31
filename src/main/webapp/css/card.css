@@ -139,10 +139,6 @@ section .section-title {
     min-height: 312px;
 }
 
-.backside .card a {
-    font-size: 18px;
-    color: #007bff !important;
-}
 
 .frontside .card .card-title,
 .backside .card .card-title {
